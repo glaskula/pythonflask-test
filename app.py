@@ -16,7 +16,7 @@ def ask():
     q = request.form.get('question')
     print(q)
     chatask = askQuestion(q,llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory,QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN)
-    return chatask
+    return chatask['result']
 
 if __name__ == '__main__':
     port = os.environ.get('FLASK_PORT') or 8080
