@@ -7,3 +7,4 @@ langchain-text-splitters==0.0.1
 langdetect==1.0.9
 redis==5.0.2
 sentence-transformers==2.5.1
+text_generation
