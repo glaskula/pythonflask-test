@@ -9,3 +9,4 @@ redis==5.0.2
 sentence-transformers==2.5.1
 text_generation
 datetime
+Flask[async]

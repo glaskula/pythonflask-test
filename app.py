@@ -12,10 +12,10 @@ def index():
     return render_template('index.html')
 
 @app.route('/ask', methods=['POST'])
-def ask():
+async def ask():
     q = request.form.get('question')
     print(q)
-    chatask = askQuestion(q,llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory,QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN)
+    chatask = await askQuestion(q,llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory,QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN)
     return chatask['result']
 
 if __name__ == '__main__':
