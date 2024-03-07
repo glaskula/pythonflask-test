@@ -10,9 +10,8 @@ from langchain.memory import ConversationBufferMemory
 from langchain.memory import ConversationBufferWindowMemory
 from langdetect import detect
 import os
-# Define variables
-#http://redisearch-002ep-ai-xjob.apps.ocpext.gbgpaas.se:6379
-redis_url = "redis://redisearch-002ep-ai-xjob.apps.ocpext.gbgpaas.se:6379"
+
+redis_url = "redis://redisearch:6379"
 index_name = "docs"
 schema_name = "redis_schema.yaml"
 inference_server_url = "http://hf-text-generation-inference-server.002ep-ai-xjob.svc.cluster.local:3000"
