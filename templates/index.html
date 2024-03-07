@@ -7,21 +7,10 @@
 </head>
 <body>
 <link rel="stylesheet"  href="{{ url_for('static', filename='app.css') }}">
-<script src="{{ url_for('static',filename='htmx.js') }}"></script>
-
-   <div class="chatbox">
-        <div class="chatbox-header">
-            <h1>Chatbox</h1>
-        </div>
-
-        <div class="chatbox-messages" id="chatbox-messages">
-            <!-- Messages will be displayed here -->
-        </div>
 
         <form action="{{ url_for('ask') }}" method="post" hx-post={{ url_for('ask') }} hx-trigger="submit" hx-target="#chatbox-messages">
             <input type="text" id="question" name="question" required placeholder="Type your message...">
             <button type="submit">Send</button>
         </form>
-    </div>
 </body>
 </html>
