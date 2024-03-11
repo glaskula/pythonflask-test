@@ -159,7 +159,7 @@ def clean_message_label(message):
             return message[len(pattern):]
     return message
 
-def askQuestion(question, llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory,QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN):
+async def askQuestion(question, llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory,QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN):
     language = detect(question)
     print(f"The language of the text is: {language}")
     result = ""
