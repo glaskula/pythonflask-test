@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, make_response, render_template, request
 from flask_cors import CORS
 
 import os
@@ -16,19 +16,13 @@ def index():
 
 @app.route('/ask', methods=['POST'])
 async def ask():
-    data = request.get_json()  # Parse JSON data from the request body
-    question = data.get('question')  # Access the question field
+    data = request.get_json()
+    question = data.get('question')
     if question:
-        # Process the question. Replace the next line with your processing logic.
-        # For demonstration, I'm returning the question as received.
-        chatask = await askQuestion(question,llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory,QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN)    
-        # If you have an asynchronous function for processing, ensure it's awaited properly
-        # e.g., chatask = await askQuestion(...)
-        # Just for example, replace with your actual processing function.
-        # Ensure your Flask app is set up to handle async routes if using `await`.
-        
-        return jsonify(chatask['result'])
-
+        chatask = await askQuestion(question, llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory, QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN)    
+        response = make_response(jsonify(chatask['result']))
+        response.headers['Access-Control-Allow-Origin'] = '*'  # Or specify your React app's domain
+        return response
     else:
         return jsonify({"error": "No question provided"}), 400
 
