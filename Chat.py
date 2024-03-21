@@ -29,7 +29,7 @@ rds = Redis.from_existing_index(
 
 llm = HuggingFaceTextGenInference(
     inference_server_url=inference_server_url,
-    max_new_tokens=254,
+    max_new_tokens=5,
     top_k=10,
     top_p=0.95,
     typical_p=0.95,

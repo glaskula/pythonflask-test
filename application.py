@@ -20,9 +20,11 @@ async def ask():
     question = data.get('question')
     if question:
         chatask = await askQuestion(question, llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory, QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN) 
-        print(chatask['result'])  # Print the value to the console for debugging   
-        response_text = f"Received question: {question}"  # Temporarily mimic hardcoded response
-        return jsonify({"response": response_text})
+        # Assuming chatask['result'] can be directly serialized with jsonify
+        response = make_response(jsonify({"response": chatask['result']}))
+        # Manually setting CORS headers
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response
     else:
         return jsonify({"error": "No question provided"}), 400
 
