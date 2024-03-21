@@ -11,3 +11,4 @@ text_generation
 datetime
 Flask[async]
 gunicorn
+Flask-CORS

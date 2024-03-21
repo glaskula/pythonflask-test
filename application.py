@@ -1,8 +1,11 @@
 from flask import Flask, jsonify, render_template, request
- 
+from flask_cors import CORS
+
 import os
 
 from Chat import redis_url, index_name, schema_name, inference_server_url, embeddings, rds, llm, PROMPT_EN, QA_CHAIN_PROMPT_EN, PROMPT_SV, QA_CHAIN_PROMPT_SV, memory_Rephrase, memory, askQuestion
+
+CORS(app, resources={r"/ask": {"origins": "https://react-chat-bot-002ep-ai-xjob.apps.ocpext.gbgpaas.se"}})
 
 app = Flask(__name__)
 
