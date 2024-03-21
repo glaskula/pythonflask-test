@@ -19,10 +19,10 @@ async def ask():
     data = request.get_json()
     question = data.get('question')
     if question:
-        chatask = await askQuestion(question, llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory, QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN)    
-        response = make_response(jsonify(chatask['result']))
-        response.headers['Access-Control-Allow-Origin'] = '*'  # Or specify your React app's domain
-        return response
+        chatask = await askQuestion(question, llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory, QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN) 
+        print(chatask['result'])  # Print the value to the console for debugging   
+        response_text = f"Received question: {question}"  # Temporarily mimic hardcoded response
+        return jsonify({"response": response_text})
     else:
         return jsonify({"error": "No question provided"}), 400
 
