@@ -14,6 +14,7 @@ def index():
 async def ask():
     q = request.form.get('question')
     print(q)
-    chatask = await askQuestion(q,llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory,QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN)
-    return chatask['result']
+    #chatask = await askQuestion(q,llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory,QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN)
+    #chatask['result']
+    return "If this message is displayed I am happy! :)"
 
