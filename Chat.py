@@ -29,7 +29,7 @@ rds = Redis.from_existing_index(
 
 llm = HuggingFaceTextGenInference(
     inference_server_url=inference_server_url,
-    max_new_tokens=5,
+    max_new_tokens=250,
     top_k=10,
     top_p=0.95,
     typical_p=0.95,
@@ -49,11 +49,12 @@ def get_formatted_date():
 formulate_question_template_EN = f"""
 [INST]
     <<SYS>>
-    You will be given conversation history and a follow up question. Your task is to rephrase the follow up question to be a standalone question based on the conversation history. 
-    If possible, indicate which type the question pertains to. The different types are Event, Guide and Place.
-    If not otherwise mentioned, assume the question is about Gothenburg. If the question seems to be unrelated to the conversation history, do not change the follow up question.
-    Change as little as possible whilst remaining the context.
-    Todays date is: {get_formatted_date()}.
+    You will be provided with a conversation history and an Input from the user, which could either be a question or not. Your task is to:
+    If the input is not a question then leave the input as is without attempting to rewrite it into a question. The input must be maintained in its original form to ensure the conversation's continuity.
+    If the input is a question then rephrase the question to make it a standalone question, based on the conversation history.
+    Change as little as possible while maintaining context and relevance. If the input seems unrelated to the conversation history, maintain the input as is.         Add absolutly NOTHING else, no parenthesis or explanation, only give rephrased input.
+    If not specified, assume the context is about Gothenburg.
+    If needed, todays date is: {get_formatted_date()}.
     <</SYS>>
 [/INST]
 
@@ -181,7 +182,7 @@ async def askQuestion(question, history, llm, rds, PROMPT_SV, PROMPT_EN, memory_
                                       verbose=True,
                                       memory=memory_Rephrase)
         answerQ = RetrievalQA.from_chain_type(llm,
-                                              retriever=rds.as_retriever(search_type="mmr", search_kwargs={"k": 2, "distance_threshold": 0.5},max_tokens_limit=1097),
+                                              retriever=rds.as_retriever(search_type="mmr", search_kwargs={"k": 3, "distance_threshold": 0.8},max_tokens_limit=1097),
                                               chain_type_kwargs={"verbose": True, "prompt": QA_CHAIN_PROMPT_SV, "memory": memory},
                                               return_source_documents=True)
         result = answerQ({"query": rephraseQ.predict(input=question)})
@@ -192,7 +193,7 @@ async def askQuestion(question, history, llm, rds, PROMPT_SV, PROMPT_EN, memory_
                                       verbose=True,
                                       memory=memory_Rephrase)
         answerQ = RetrievalQA.from_chain_type(llm,
-                                              retriever=rds.as_retriever(search_type="mmr", search_kwargs={"k": 2, "distance_threshold": 0.5}, max_tokens_limit=1097),
+                                              retriever=rds.as_retriever(search_type="mmr", search_kwargs={"k": 3, "distance_threshold": 0.8}, max_tokens_limit=1097),
                                               chain_type_kwargs={"verbose": True, "prompt": QA_CHAIN_PROMPT_EN, "memory": memory},
                                               return_source_documents=True)
         result = answerQ({"query": rephraseQ.predict(input=question)})
