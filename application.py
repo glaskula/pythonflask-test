@@ -20,7 +20,7 @@ async def ask():
     question = data.get('question')
     history = data.get('history', [])  # Assuming history is sent as a list of messages
     if question:
-        chatask = await askQuestion(question, history, llm, rds, PROMPT_SV, PROMPT_EN, QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN) 
+        chatask = await askQuestion(question, history, llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory, QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN) 
         response = make_response(jsonify({"response": chatask['result']}))
         response.headers['Access-Control-Allow-Origin'] = '*'
         return response
