@@ -18,13 +18,13 @@ def index():
 async def ask():
     data = request.get_json()
     question = data.get('question')
+    history = data.get('history', [])  # Assuming history is sent as a list of messages
     if question:
-        chatask = await askQuestion(question, llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory, QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN) 
-        # Assuming chatask['result'] can be directly serialized with jsonify
+        chatask = await askQuestion(question, history, llm, rds, PROMPT_SV, PROMPT_EN, QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN) 
         response = make_response(jsonify({"response": chatask['result']}))
-        # Manually setting CORS headers
         response.headers['Access-Control-Allow-Origin'] = '*'
         return response
     else:
         return jsonify({"error": "No question provided"}), 400
+
 

@@ -159,10 +159,23 @@ def clean_message_label(message):
             return message[len(pattern):]
     return message
 
-async def askQuestion(question, llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory,QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN):
+async def askQuestion(question, history, llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory,QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN):
     language = detect(question)
     print(f"The language of the text is: {language}")
     result = ""
+    # Prepare to clear the previous context to avoid confusion
+    memory_Rephrase.clear()
+    memory.clear()
+    print("Historiy:", history)
+    # Process each message pair and save it to memory
+    for i in range(0, len(history) - 1, 2):  # Iterate through the history in steps of 2
+        input_message = history[i]['text']  # User's message as input
+        output_message = history[i+1]['text']  # AI's message as output
+        
+        # Save the cleaned context
+        memory_Rephrase.save_context({"input": input_message}, {"output": output_message})
+        memory.save_context({"question": input_message}, {"answer": output_message})
+
     if language == "sv":
         rephraseQ = ConversationChain(llm=llm,
                                       prompt=PROMPT_SV,
@@ -184,42 +197,4 @@ async def askQuestion(question, llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase,
                                               chain_type_kwargs={"verbose": True, "prompt": QA_CHAIN_PROMPT_EN, "memory": memory},
                                               return_source_documents=True)
         result = answerQ({"query": rephraseQ.predict(input=question)})
-        
-    # Load memory variables into a dictionary
-    hist_dict = memory.load_memory_variables({})
-
-    # Assuming the conversation history is stored under the 'history' key
-    history = hist_dict.get('history', '')  # Default to an empty string if 'history' is not found
-
-    # Split the history by newline character to get a list of messages
-    messages = history.split('\n')
-
-    last_message = ""
-    next_to_last_message = ""
-    third_last_message = ""
-    fourth_last_message = ""
-
-    # Check if the list has at least one message for the last message
-    if messages:
-        last_message = clean_message_label(messages[-1])
-
-    # Check if the list has at least two messages for the next to last message
-    if len(messages) >= 2:
-        next_to_last_message = clean_message_label(messages[-2])
-
-    # Check if the list has at least three messages for the third last message
-    if len(messages) >= 3:
-        third_last_message = clean_message_label(messages[-3])
-
-    # Check if the list has at least four messages for the fourth last message
-    if len(messages) >= 4:
-        fourth_last_message = clean_message_label(messages[-4])
-
-    # Clear the memory to avoid duplication
-    memory_Rephrase.clear()
-    # Save the cleaned context
-    if len(messages) >= 4:
-        memory_Rephrase.save_context({"input": fourth_last_message}, {"output": third_last_message})
-        
-    memory_Rephrase.save_context({"input": next_to_last_message}, {"output": last_message})
     return result
