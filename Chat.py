@@ -61,9 +61,9 @@ formulate_question_template_EN = f"""
 Conversation History:
 {{history}}
 
-[INST] Follow up question: {{input}} [/INST]
+[INST] Input: {{input}} [/INST]
 
-Standalone question:
+Rephrased Input:
 """.strip()
 
 PROMPT_EN = PromptTemplate(
