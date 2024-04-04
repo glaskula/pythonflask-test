@@ -19,8 +19,10 @@ async def ask():
     data = request.get_json()
     question = data.get('question')
     history = data.get('history', [])  # Assuming history is sent as a list of messages
+    language = data.get('language')
     if question:
-        chatask = await askQuestion(question, history, llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory, QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN) 
+        chatask = await askQuestion(question, history, llm, rds, PROMPT_SV, PROMPT_EN, memory_Rephrase, memory, QA_CHAIN_PROMPT_SV, QA_CHAIN_PROMPT_EN, language) 
+        # Assuming chatask['result'] can be directly serialized with jsonify
         response = make_response(jsonify({"response": chatask['result']}))
         response.headers['Access-Control-Allow-Origin'] = '*'
         return response
