@@ -182,7 +182,7 @@ async def askQuestion(question, history, llm, rds, PROMPT_SV, PROMPT_EN, memory_
                                       verbose=True,
                                       memory=memory_Rephrase)
         answerQ = RetrievalQA.from_chain_type(llm,
-                                              retriever=rds.as_retriever(search_type="mmr", search_kwargs={"k": 3, "distance_threshold": 0.8},max_tokens_limit=1097),
+                                              retriever=rds.as_retriever(search_type="mmr", search_kwargs={"k": 3, "distance_threshold": 0.7},max_tokens_limit=1097),
                                               chain_type_kwargs={"verbose": True, "prompt": QA_CHAIN_PROMPT_SV, "memory": memory},
                                               return_source_documents=True)
         result = answerQ({"query": rephraseQ.predict(input=question)})
@@ -193,7 +193,7 @@ async def askQuestion(question, history, llm, rds, PROMPT_SV, PROMPT_EN, memory_
                                       verbose=True,
                                       memory=memory_Rephrase)
         answerQ = RetrievalQA.from_chain_type(llm,
-                                              retriever=rds.as_retriever(search_type="mmr", search_kwargs={"k": 3, "distance_threshold": 0.8}, max_tokens_limit=1097),
+                                              retriever=rds.as_retriever(search_type="mmr", search_kwargs={"k": 3, "distance_threshold": 0.7}, max_tokens_limit=1097),
                                               chain_type_kwargs={"verbose": True, "prompt": QA_CHAIN_PROMPT_EN, "memory": memory},
                                               return_source_documents=True)
         result = answerQ({"query": rephraseQ.predict(input=question)})
