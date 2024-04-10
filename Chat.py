@@ -56,6 +56,7 @@ def clean_message_label(message):
 async def askQuestion(question, history, language):
     print(f"The language of the text is: {language}")
     print("Historiy:", history)
+    formatted_history = ""
 
     for message in history:  # Assuming 'history' is your list of messages
         role = "User" if message["isUserMessage"] else "AI"
@@ -88,7 +89,7 @@ async def askQuestion(question, history, language):
             headers={"Content-Type": "application/json"},
             json={
                 "messages": [
-                    {"role": "system", "content": prompt_version_1 + formatted_history},
+                    {"role": "system", "content": prompt_version_1 + "\nCoversation history:\n" + formatted_history},
                     {"role": "user", "content": question}
                 ],
                 "temperature": 0.1,
@@ -128,9 +129,9 @@ async def askQuestion(question, history, language):
         response2 = await client.post(
             "http://95.80.38.172:3001/v1/chat/completions",
             headers={"Content-Type": "application/json"},
-           json={
+            json={
                 "messages": [
-                    {"role": "system", "content": prompt_version_2 + formatted_history},
+                    {"role": "system", "content": prompt_version_2 + "\nCoversation history:\n" + formatted_history},
                     {"role": "user", "content": question}
                 ],
                 "temperature": 0.1,
