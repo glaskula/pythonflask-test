@@ -37,10 +37,11 @@ def get_formatted_date():
     return formatted_date
 
 def get_context(query):
-    retriever = rds.as_retriever(search_type="similarity_score_threshold", search_kwargs={"k": 2,"score_threshold": 0.3})
+    retriever = rds.as_retriever(search_type="similarity_score_threshold", search_kwargs={"k": 2, "score_threshold": 0.3})
     docs = retriever.get_relevant_documents(query)
-    return docs
-
+    # Use the dot notation to access the page_content attribute
+    context_string = ', '.join([doc.page_content for doc in docs])
+    return context_string
 
 # Define a function to clean message labels
 def clean_message_label(message):
@@ -53,11 +54,6 @@ def clean_message_label(message):
     return message
 
 async def askQuestion(question, history, language):
-    # Fetch context based on the original question
-    context_docs = get_context(question)
-    # Convert the context docs to a string format to include in the prompt, adjust according to your needs
-    context_string = ', '.join([doc['text'] for doc in context_docs])
-
     print(f"The language of the text is: {language}")
     print("Historiy:", history)
 
@@ -146,5 +142,6 @@ async def askQuestion(question, history, language):
             }
         )
         final_answer = response2.json()['choices'][0]['message']['content']  # Extract the final answer
-        
-        return final_answer
+
+        # Adjust the return statement to match the expected format
+        return {"result": final_answer}
