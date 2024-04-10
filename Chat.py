@@ -15,7 +15,7 @@ import os
 redis_url = "redis://redisearch:6379"
 index_name = "docs"
 schema_name = "redis_schema.yaml"
-inference_server_url = "http://hf-text-generation-inference-server.002ep-ai-xjob.svc.cluster.local:3000"
+inference_server_url = "http://95.80.38.172:3000"
 
 # Initialize embeddings and Redis
 embeddings = HuggingFaceEmbeddings()
@@ -29,7 +29,7 @@ rds = Redis.from_existing_index(
 
 llm = HuggingFaceTextGenInference(
     inference_server_url=inference_server_url,
-    max_new_tokens=250,
+    max_new_tokens=500,
     top_k=10,
     top_p=0.95,
     typical_p=0.95,
