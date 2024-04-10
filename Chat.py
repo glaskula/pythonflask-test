@@ -57,12 +57,9 @@ async def askQuestion(question, history, language):
     print(f"The language of the text is: {language}")
     print("Historiy:", history)
 
-
-    # Process each message pair and save it to memory
-    for i in range(0, len(history) - 1, 2):  # Iterate through the history in steps of 2
-        input_message = history[i]['text']  # User's message as input
-        output_message = history[i+1]['text']  # AI's message as output
-        
+    for message in history:  # Assuming 'history' is your list of messages
+        role = "User" if message["isUserMessage"] else "AI"
+        formatted_history += f"{role}: {message['text'].strip()}\n"
 
     async with httpx.AsyncClient(timeout=600.0) as client:  #time out
         if language == "sv":
@@ -91,10 +88,10 @@ async def askQuestion(question, history, language):
             headers={"Content-Type": "application/json"},
             json={
                 "messages": [
-                    {"role": "system", "content": prompt_version_1},
+                    {"role": "system", "content": prompt_version_1 + formatted_history},
                     {"role": "user", "content": question}
                 ],
-                "temperature": 0.7,
+                "temperature": 0.1,
                 "max_tokens": -1,
                 "stream": False
             }
@@ -131,12 +128,12 @@ async def askQuestion(question, history, language):
         response2 = await client.post(
             "http://95.80.38.172:3001/v1/chat/completions",
             headers={"Content-Type": "application/json"},
-            json={
+           json={
                 "messages": [
-                    {"role": "system", "content": prompt_version_2},
+                    {"role": "system", "content": prompt_version_2 + formatted_history},
                     {"role": "user", "content": question}
                 ],
-                "temperature": 0.7,
+                "temperature": 0.1,
                 "max_tokens": -1,
                 "stream": False
             }
