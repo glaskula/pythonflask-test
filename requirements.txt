@@ -12,3 +12,4 @@ datetime
 Flask[async]
 gunicorn
 Flask-CORS
+httpx
