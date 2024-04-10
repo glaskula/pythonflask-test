@@ -87,7 +87,7 @@ async def askQuestion(question, history, language):
 
         # First API call with the rephrased question prompt
         response1 = await client.post(
-            "http://localhost:3001/v1/chat/completions",
+            "http://95.80.38.172:3001/v1/chat/completions",
             headers={"Content-Type": "application/json"},
             json={
                 "messages": [
@@ -129,7 +129,7 @@ async def askQuestion(question, history, language):
         
         # Second API call with the real answer template prompt
         response2 = await client.post(
-            "http://localhost:3001/v1/chat/completions",
+            "http://95.80.38.172:3001/v1/chat/completions",
             headers={"Content-Type": "application/json"},
             json={
                 "messages": [
