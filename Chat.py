@@ -100,7 +100,7 @@ async def askQuestion(question, history, language):
                 ],
                 "temperature": 0.7,
                 "max_tokens": -1,
-                "stream": false
+                "stream": False
             }
         )
           # You need to extract the rephrased question appropriately from response1.json()
@@ -142,7 +142,7 @@ async def askQuestion(question, history, language):
                 ],
                 "temperature": 0.7,
                 "max_tokens": -1,
-                "stream": false
+                "stream": False
             }
         )
         final_answer = response2.json()['choices'][0]['message']['content']  # Extract the final answer
