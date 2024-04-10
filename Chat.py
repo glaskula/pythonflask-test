@@ -15,7 +15,7 @@ import os
 redis_url = "redis://redisearch:6379"
 index_name = "docs"
 schema_name = "redis_schema.yaml"
-inference_server_url = "http://95.80.38.172:3000"
+inference_server_url = "http://95.80.38.172:3001"
 
 # Initialize embeddings and Redis
 embeddings = HuggingFaceEmbeddings()
