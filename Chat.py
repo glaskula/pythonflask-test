@@ -32,8 +32,8 @@ rds = Redis.from_existing_index(
 def get_formatted_date():
     # Get today's date
     today = datetime.now()
-    # Format the date as a string (for example: "22 February, 2024")
-    formatted_date = today.strftime("%d %B, %Y")
+    # Format the date as a string (for example: "Monday, 22 February, 2024")
+    formatted_date = today.strftime("%A, %d %B, %Y")
     return formatted_date
 
 def get_context(query):
