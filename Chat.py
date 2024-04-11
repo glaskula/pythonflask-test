@@ -58,9 +58,13 @@ async def askQuestion(question, history, language):
     print("Historiy:", history)
     formatted_history = ""
 
-    for message in history:  # Assuming 'history' is your list of messages
+    # Slice the history to get the last 4 messages
+    last_four_messages = history[-4:]
+
+    for message in last_four_messages:  # Now iterating over the last 4 messages only
         role = "User" if message["isUserMessage"] else "AI"
         formatted_history += f"{role}: {message['text'].strip()}\n"
+
 
     async with httpx.AsyncClient(timeout=600.0) as client:  #time out
         if language == "sv":
