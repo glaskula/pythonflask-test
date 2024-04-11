@@ -37,7 +37,7 @@ def get_formatted_date():
     return formatted_date
 
 def get_context(query):
-    retriever = rds.as_retriever(search_type="similarity_score_threshold", search_kwargs={"k": 2, "score_threshold": 0.3})
+    retriever=rds.as_retriever(search_type="mmr", search_kwargs={"k": 3, "distance_threshold": 0.7},max_tokens_limit=1097)
     docs = retriever.get_relevant_documents(query)
     # Use the dot notation to access the page_content attribute
     context_string = ', '.join([doc.page_content for doc in docs])
