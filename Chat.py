@@ -79,11 +79,7 @@ async def askQuestion(question, history, language):
             """.strip()
         else:
             prompt_version_1 = f"""
-            You will be provided with a conversation history and an Input from the user, which could either be a question or not. Your task is to:
-            If the input is not a question then leave the input as is without attempting to rewrite it into a question. The input must be maintained in its original form to ensure the conversation's continuity.
-            If the input is a question then rephrase the question to make it a standalone question, based on the conversation history.
-            Change as little as possible while maintaining context and relevance. If the input seems unrelated to the conversation history, maintain the input as is.         Add absolutly NOTHING else, no parenthesis or explanation, only give rephrased input.
-            If not specified, assume the context is about Gothenburg.
+            Your task is to create keywords from the input.
             If needed, todays date is: {get_formatted_date()}.
             """.strip()
 
