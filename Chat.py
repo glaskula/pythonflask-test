@@ -135,7 +135,7 @@ async def askQuestion(question, history, language):
                     {"role": "system", "content": prompt_version_2 + "\nCoversation history:\n" + formatted_history},
                     {"role": "user", "content": question}
                 ],
-                "temperature": 0.05,
+                "temperature": 0.1,
                 "max_tokens": -1,
                 "stream": False
             }
