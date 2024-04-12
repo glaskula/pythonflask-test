@@ -80,7 +80,7 @@ async def askQuestion(question, history, language):
         else:
             prompt_version_1 = f"""
             Your task is to create 4 keywords from the input.
-            Your answer should be the keywords and nothing more.
+            Do not answer the question. Only write down the keywords.
             If needed, todays date is: {get_formatted_date()}.
             """.strip()
 
