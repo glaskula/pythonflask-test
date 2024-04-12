@@ -79,7 +79,8 @@ async def askQuestion(question, history, language):
             """.strip()
         else:
             prompt_version_1 = f"""
-            Your task is to create keywords from the input.
+            Your task is to create 4 keywords from the input.
+            Your answer should be the keywords and nothing more.
             If needed, todays date is: {get_formatted_date()}.
             """.strip()
 
